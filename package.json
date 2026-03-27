@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "engines": {
+  "node": "18.x"
+  },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@react-three/drei": "^10.7.7",
@@ -34,4 +37,5 @@
     "tailwindcss": "^3.4.1",
     "vite": "^8.0.1"
   }
+  
 }
