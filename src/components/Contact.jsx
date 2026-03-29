@@ -1,192 +1,109 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { useState } from "react";
-import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 import emailjs from "@emailjs/browser";
+import SectionReveal from "./SectionReveal";
 
 export default function Contact() {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+  const handleChange = (event) => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      [event.target.name]: event.target.value,
+    }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    emailjs.send(
-      "service_meddq7n",     // your service id
-      "template_seb0giz",      // your template id
-      {
-        from_name: form.name,
-        from_email: form.email,
-        message: form.message
-      },
-      "2quK1HQCjiFDbPBX-"      // from EmailJS
-    )
-    .then(() => {
-      alert("Message Sent Successfully 🚀");
-    })
-    .catch((error) => {
-      console.log(error);
-      alert("Failed ❌");
-    });
+    emailjs
+      .send(
+        "service_meddq7n",
+        "template_seb0giz",
+        {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
+        },
+        "2quK1HQCjiFDbPBX-",
+      )
+      .then(() => {
+        window.alert("Message sent successfully.");
+      })
+      .catch((error) => {
+        console.error(error);
+        window.alert("Failed to send the message.");
+      });
 
     setForm({ name: "", email: "", message: "" });
   };
 
   return (
-    <section
-      id="contact"
-      className="relative min-h-screen bg-black pt-32 px-6 md:px-20 text-white overflow-hidden"
-    >
-
-      {/* 🔥 BACKGROUND GLOW */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,255,255,0.08),transparent_70%)]"></div>
-
-      {/* 🔥 Heading */}
-      <motion.h2
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="text-5xl font-bold text-center mb-20 relative z-10"
-      >
-        Contact Me
-      </motion.h2>
-
-      <div className="relative z-10 grid md:grid-cols-2 gap-12">
-
-        {/* 🔥 LEFT SIDE INFO */}
-        <motion.div
-          initial={{ opacity: 0, x: -80 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          className="space-y-6"
-        >
-          <p className="text-lg text-gray-300 leading-relaxed">
-            I’m open to internships, collaborations, and exciting projects. 
-            Feel free to reach out.
-          </p>
-
-          {/* INFO BOX */}
-          <div className="space-y-4 text-gray-400">
-
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur">
-              📧 vaibhavsayam642@gmail.com
-            </div>
-
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur">
-              📱 +91 8668569753
-            </div>
-
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur">
-              📍 Yavatmal, Maharashtra, India
-            </div>
-
+    <section className="px-6 py-24 text-white md:px-12 lg:px-20">
+      <div className="mx-auto max-w-7xl">
+        <SectionReveal>
+          <div className="mb-14 text-center">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300 light:text-sky-700">Contact</p>
+            <h2 className="text-3xl font-bold text-white light:text-slate-950 md:text-5xl">
+              Let us build something meaningful together.
+            </h2>
           </div>
+        </SectionReveal>
 
-          {/* SOCIAL */}
-          <div className="flex gap-6 mt-6 text-2xl">
+        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+          <SectionReveal>
+            <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl light:border-slate-200 light:bg-white/92 light:shadow-[0_18px_45px_rgba(148,163,184,0.22)]">
+              <p className="text-lg leading-8 text-slate-300 light:text-slate-700">
+                I am open to internships, freelance work, collaborations, and product-focused engineering opportunities. If you have an idea or an open role, I would love to hear about it.
+              </p>
+              <div className="mt-8 grid gap-4 text-sm">
+                <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-4 light:border-slate-200 light:bg-slate-100">
+                  <FiMail className="text-cyan-300 light:text-sky-700" />
+                  <span>vaibhavsayam642@gmail.com</span>
+                </div>
+                <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-4 light:border-slate-200 light:bg-slate-100">
+                  <FiPhone className="text-cyan-300 light:text-sky-700" />
+                  <span>+91 8668569753</span>
+                </div>
+                <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-4 light:border-slate-200 light:bg-slate-100">
+                  <FiMapPin className="text-cyan-300 light:text-sky-700" />
+                  <span>Yavatmal, Maharashtra, India</span>
+                </div>
+              </div>
+              <div className="mt-8 flex gap-4 text-xl">
+                <a href="https://github.com/vaibhavsayam642" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 transition hover:-translate-y-1 hover:border-cyan-400/50 hover:text-cyan-300 light:border-slate-200 light:bg-white light:text-slate-800">
+                  <FaGithub />
+                </a>
+                <a href="https://www.linkedin.com/in/vaibhav-sayam-264566284" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 transition hover:-translate-y-1 hover:border-cyan-400/50 hover:text-cyan-300 light:border-slate-200 light:bg-white light:text-slate-800">
+                  <FaLinkedin />
+                </a>
+                <a href="https://www.instagram.com/vaibhav__101_" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 transition hover:-translate-y-1 hover:border-cyan-400/50 hover:text-cyan-300 light:border-slate-200 light:bg-white light:text-slate-800">
+                  <FaInstagram />
+                </a>
+              </div>
+            </div>
+          </SectionReveal>
 
-            <a
-              href="https://github.com/vaibhavsayam642"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-cyan-400 hover:scale-125 transition duration-300"
-            >
-              <FaGithub />
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/vaibhav-sayam-264566284"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-cyan-400 hover:scale-125 transition duration-300"
-            >
-              <FaLinkedin />
-            </a>
-
-            <a
-              href="https://www.instagram.com/vaibhav__101_"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-cyan-400 hover:scale-125 transition duration-300"
-            >
-              <FaInstagram />
-            </a>
-
-          </div>
-                  </motion.div>
-
-        {/* 🔥 RIGHT SIDE FORM */}
-        <motion.form
-          onSubmit={handleSubmit}
-          initial={{ opacity: 0, x: 80 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          className="relative p-8 rounded-2xl 
-                     bg-white/5 backdrop-blur-xl 
-                     border border-white/10 
-                     shadow-[0_0_30px_rgba(0,255,255,0.1)]"
-        >
-
-          {/* INPUT */}
-          {["name", "email"].map((field, i) => (
-            <motion.input
-              key={i}
-              type={field === "email" ? "email" : "text"}
-              name={field}
-              placeholder={field === "name" ? "Your Name" : "Your Email"}
-              value={form[field]}
-              onChange={handleChange}
-              required
-
-              whileFocus={{ scale: 1.03 }}
-
-              className="w-full p-3 mb-4 bg-black/60 border border-white/10 
-                         rounded-lg focus:outline-none focus:border-cyan-400 
-                         transition"
-            />
-          ))}
-
-          {/* TEXTAREA */}
-          <motion.textarea
-            name="message"
-            placeholder="Your Message"
-            value={form.message}
-            onChange={handleChange}
-            required
-            rows="5"
-
-            whileFocus={{ scale: 1.03 }}
-
-            className="w-full p-3 mb-4 bg-black/60 border border-white/10 
-                       rounded-lg focus:outline-none focus:border-cyan-400 
-                       transition"
-          />
-
-          {/* BUTTON */}
-          <motion.button
-            type="submit"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-
-            className="w-full py-3 rounded-xl font-semibold 
-                       bg-gradient-to-r from-cyan-500 to-blue-500 
-                       shadow-[0_0_20px_rgba(0,255,255,0.4)] 
-                       hover:shadow-[0_0_40px_rgba(0,255,255,0.7)] 
-                       transition"
-          >
-            Send Message 🚀
-          </motion.button>
-
-        </motion.form>
-
+          <SectionReveal delay={0.08}>
+            <motion.form onSubmit={handleSubmit} className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-8 shadow-[0_20px_60px_rgba(8,15,32,0.38)] backdrop-blur-xl light:border-slate-200 light:bg-white/95 light:shadow-[0_18px_45px_rgba(148,163,184,0.22)]">
+              <div className="grid gap-4 md:grid-cols-2">
+                <input type="text" name="name" placeholder="Your name" value={form.name} onChange={handleChange} required className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-cyan-400 light:border-slate-200 light:bg-slate-50 light:text-slate-900" />
+                <input type="email" name="email" placeholder="Your email" value={form.email} onChange={handleChange} required className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-cyan-400 light:border-slate-200 light:bg-slate-50 light:text-slate-900" />
+              </div>
+              <textarea name="message" placeholder="Tell me about your project" value={form.message} onChange={handleChange} required rows="7" className="mt-4 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-cyan-400 light:border-slate-200 light:bg-slate-50 light:text-slate-900" />
+              <motion.button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_35px_rgba(56,189,248,0.35)]">
+                Send Message
+              </motion.button>
+            </motion.form>
+          </SectionReveal>
+        </div>
       </div>
-
     </section>
   );
 }

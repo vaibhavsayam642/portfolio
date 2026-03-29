@@ -1,55 +1,24 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 
 export default function Loader() {
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-black z-[9999]">
-
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          textAlign: "center",
-          width: "100%"
-        }}
-      >
-
-        <h1
-          style={{
-            margin: 0,
-            fontSize: "3rem",
-            fontWeight: "bold",
-            color: "white"
-          }}
-        >
-          MY PORTFOLIO
-        </h1>
-
-        <motion.p
-          animate={{ opacity: [0.3, 1, 0.3] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          style={{ marginTop: "10px", color: "#9ca3af" }}
-        >
-          LOADING EXPERIENCE...
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.45 }}
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-slate-950"
+    >
+      <div className="text-center">
+        <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-4 text-sm font-semibold uppercase tracking-[0.36em] text-cyan-300">
+          Loading Portfolio
         </motion.p>
-
-        <div style={{ marginTop: "20px" }}>
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 1.2 }}
-            style={{
-              width: "40px",
-              height: "40px",
-              border: "4px solid cyan",
-              borderTop: "4px solid transparent",
-              borderRadius: "50%",
-              margin: "0 auto"
-            }}
-          />
+        <motion.h1 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="text-4xl font-bold text-white">
+          Vaibhav Sayam
+        </motion.h1>
+        <div className="mt-8 flex justify-center">
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.1, repeat: Infinity, ease: "linear" }} className="h-12 w-12 rounded-full border-4 border-cyan-400/70 border-t-transparent" />
         </div>
-
       </div>
-    </div>
+    </motion.div>
   );
 }

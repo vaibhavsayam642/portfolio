@@ -1,94 +1,55 @@
-import { useEffect, useState } from "react";
-import Loader from "./components/Loader";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Projects from "./components/Projects";
-import Features from "./components/Features";
-import Contact from "./components/Contact";
-import Navbar from "./components/Navbar";
-import Scene from "./three/Scene";
+﻿import { lazy, Suspense, useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Cursor from "./components/Cursor";
-import Tech from "./components/Tech";
-import HomeTitle from "./components/HomeTitle";
-import Footer from "./components/Footer";
+import Loader from "./components/Loader";
+import Navbar from "./components/Navbar";
+import RouteLoader from "./components/RouteLoader";
+
+const HomePage = lazy(() => import("./pages/HomePage"));
+const ProjectDetailsPage = lazy(() => import("./pages/ProjectDetailsPage"));
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [showLoader, setShowLoader] = useState(true);
+  const location = useLocation();
+  const [booting, setBooting] = useState(true);
 
   useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add("dark");
+    root.classList.remove("light");
     window.history.scrollRestoration = "manual";
 
-    setTimeout(() => {
-      setLoading(false); // start fade out
+    const timer = window.setTimeout(() => {
+      setBooting(false);
+      window.scrollTo(0, 0);
+    }, 1600);
 
-      setTimeout(() => {
-        setShowLoader(false); // remove loader completely
-        window.scrollTo(0, 0);
-      }, 500); // match animation duration
-
-    }, 2000);
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (
     <>
-      {/* Loader */}
-      {showLoader && (
-        <div className={`${loading ? "opacity-100" : "opacity-0"} transition-opacity duration-500`}>
-          <Loader />
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        {booting && <Loader key="app-loader" />}
+      </AnimatePresence>
 
-      {/* MAIN CONTENT */}
-      {!loading && (
+      {!booting && (
         <>
-
           <Cursor />
-        <>
-
-        <Navbar />
-        <section id="home" className="h-screen flex items-center justify-center">
-          <HomeTitle />
-        </section>
-
-        {/* 🔥 NAVBAR PAGE ONLY */}
-        <section
-          id="home"
-          style={{
-            height: "100vh",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "black",
-            color: "white"
-          }}
-        >
-          
-        </section>
-
-        {/* 🔥 HERO (ONLY AFTER SCROLL) */}
-        <section
-          id="hero"
-          style={{
-            height: "100vh",
-            background: "black"
-          }}
-        >
-          <Hero />
-          <Footer />
-        </section>
-
-      </>
-          <section id="about"><About /></section>
-          <section id="projects"><Projects /></section>
-          <section id="features"><Features /></section>
-          <section id="tech"><Tech /></section>
-          <section id="contact"><Contact /></section>
+          <RouteLoader />
+          <Navbar />
+          <AnimatePresence mode="wait">
+            <Suspense fallback={<Loader />}>
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/project/:id" element={<ProjectDetailsPage />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Suspense>
+          </AnimatePresence>
         </>
-        
       )}
     </>
-
   );
 }
 

@@ -1,61 +1,110 @@
-import { useState, useEffect } from "react";
+﻿import { useEffect, useState } from "react";
+import { FiArrowLeft } from "react-icons/fi";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+const navItems = [
+  "home",
+  "hero",
+  "about",
+  "projects",
+  "features",
+  "skills",
+  "contact",
+];
 
 export default function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [active, setActive] = useState("home");
+  const isHomePage = location.pathname === "/";
 
-  const navItems = ["hero", "about", "projects", "features", "tech", "contact"];
+  useEffect(() => {
+    if (!isHomePage) {
+      return undefined;
+    }
 
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth"
+    const handleScroll = () => {
+      const currentSection = navItems.find((id) => {
+        const section = document.getElementById(id);
+        if (!section) {
+          return false;
+        }
+
+        const top = section.offsetTop - 180;
+        const height = section.offsetHeight;
+        return window.scrollY >= top && window.scrollY < top + height;
+      });
+
+      setActive(currentSection || (window.scrollY < 120 ? "home" : active));
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [active, isHomePage]);
+
+  const handleSectionNavigation = (sectionId) => {
+    if (!isHomePage) {
+      navigate(`/#${sectionId}`);
+      return;
+    }
+
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
     });
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      navItems.forEach((id) => {
-        const sec = document.getElementById(id);
-        if (!sec) return;
-
-        const top = sec.offsetTop - 150;
-        const height = sec.offsetHeight;
-
-        if (window.scrollY >= top && window.scrollY < top + height) {
-          setActive(id);
-        }
-      });
-
-      // HOME active at top
-      if (window.scrollY < 100) {
-        setActive("home");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-      <div className="flex items-center gap-6 px-6 py-3 
-                      rounded-full 
-                      bg-white/5 backdrop-blur-xl 
-                      border border-white/10 
-                      shadow-[0_0_30px_rgba(0,255,255,0.15)]">
-
-        {/* Tabs */}
-        {navItems.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => scrollToSection(item)}
-            className={`px-5 py-2 rounded-full cursor-pointer transition-all duration-300
-              ${active === item
-                ? "bg-cyan-400 text-black shadow-[0_0_20px_#00ffff]"
-                : "text-gray-300 hover:text-cyan-400"}`}
+    <nav className="fixed inset-x-0 top-5 z-50 px-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full border border-white/10 bg-slate-950/65 px-4 py-3 shadow-[0_18px_60px_rgba(15,23,42,0.45)] backdrop-blur-2xl">
+        <div className="flex items-center gap-3">
+          <Link
+            to="/"
+            className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-semibold tracking-[0.24em] text-cyan-200 transition hover:border-cyan-400/50 hover:text-white"
           >
-            {item}
-          </div>
-        ))}
+            VS
+          </Link>
+
+          {isHomePage ? (
+            <div className="hidden items-center gap-2 lg:flex">
+              {navItems.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => handleSectionNavigation(item)}
+                  className={`rounded-full px-4 py-2 text-sm font-medium capitalize transition ${
+                    active === item
+                      ? "bg-cyan-400 text-slate-950 shadow-[0_0_24px_rgba(34,211,238,0.4)]"
+                      : "text-slate-300 hover:text-white"
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <Link
+              to="/#projects"
+              className="hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-slate-300 transition hover:text-white lg:inline-flex"
+            >
+              <FiArrowLeft />
+              Back to projects
+            </Link>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3">
+          {isHomePage && (
+            <button
+              type="button"
+              onClick={() => handleSectionNavigation("contact")}
+              className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-cyan-400/50 hover:bg-cyan-400/10 md:inline-flex"
+            >
+              Let us talk
+            </button>
+          )}
+        </div>
       </div>
     </nav>
   );

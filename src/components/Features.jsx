@@ -1,106 +1,69 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+﻿import { motion } from "framer-motion";
+import { FiCpu, FiLayers, FiLock, FiZap } from "react-icons/fi";
+import SectionReveal from "./SectionReveal";
 
 const features = [
   {
     title: "Real-time Systems",
-    desc: "Built scalable real-time apps using WebSockets and Socket.IO.",
-    icon: "⚡"
+    description:
+      "I build collaborative flows powered by synchronized state, fast updates, and dependable event handling.",
+    icon: FiZap,
+  },
+  {
+    title: "Frontend Craft",
+    description:
+      "Interfaces are designed for clarity, motion, responsiveness, and a polished user journey across devices.",
+    icon: FiLayers,
   },
   {
     title: "Backend Architecture",
-    desc: "Robust backend using Node.js, Express & microservices.",
-    icon: "⚙️"
+    description:
+      "API design, data modeling, and service structure are shaped for maintainability and production growth.",
+    icon: FiCpu,
   },
   {
-    title: "Database Design",
-    desc: "Optimized MongoDB schema & performance handling.",
-    icon: "🗄️"
+    title: "Safe Execution",
+    description:
+      "I care about secure execution patterns, operational awareness, and resilient application behavior.",
+    icon: FiLock,
   },
-  {
-    title: "Secure Execution",
-    desc: "Docker-based isolated secure code execution.",
-    icon: "🔒"
-  }
 ];
 
 export default function Features() {
-  const [hovered, setHovered] = useState(null);
-
   return (
-    <section
-      id="features"
-      className="min-h-screen bg-black pt-32 px-6 md:px-20 text-white"
-    >
+    <section className="px-6 py-24 text-white md:px-12 lg:px-20">
+      <div className="mx-auto max-w-7xl">
+        <SectionReveal>
+          <div className="mb-14 text-center">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300 light:text-sky-700">Core Strengths</p>
+            <h2 className="text-3xl font-bold text-white light:text-slate-950 md:text-5xl">
+              Product thinking backed by full-stack engineering.
+            </h2>
+          </div>
+        </SectionReveal>
 
-      {/* 🔥 Heading */}
-      <motion.h2
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="text-4xl font-bold text-center mb-20"
-      >
-        Features
-      </motion.h2>
-
-      {/* 🔥 Cards */}
-      <div className="grid md:grid-cols-4 gap-10">
-
-        {features.map((f, index) => (
-          <motion.div
-            key={index}
-            onMouseEnter={() => setHovered(index)}
-            onMouseLeave={() => setHovered(null)}
-
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.15 }}
-
-            className="relative h-[220px] flex flex-col justify-center items-center 
-                       rounded-2xl border border-white/10 
-                       bg-black overflow-hidden cursor-pointer"
-          >
-
-            {/* 🔥 Animated Neon Border */}
-            <div className="absolute inset-0 rounded-2xl border border-cyan-400 opacity-20"></div>
-
-            {hovered === index && (
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
               <motion.div
-                layoutId="glow"
-                className="absolute inset-0 rounded-2xl bg-cyan-400/10 blur-xl"
-              />
-            )}
-
-            {/* ICON */}
-            <motion.div
-              animate={{
-                scale: hovered === index ? 1.3 : 1,
-                rotate: hovered === index ? 10 : 0
-              }}
-              className="text-4xl mb-4"
-            >
-              {f.icon}
-            </motion.div>
-
-            {/* TITLE */}
-            <h3 className="text-lg font-semibold">
-              {f.title}
-            </h3>
-
-            {/* DESC (appears on hover) */}
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{
-                opacity: hovered === index ? 1 : 0,
-                y: hovered === index ? 0 : 10
-              }}
-              className="text-sm text-gray-400 text-center mt-3 px-4"
-            >
-              {f.desc}
-            </motion.p>
-
-          </motion.div>
-        ))}
-
+                key={feature.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl light:border-slate-300 light:bg-white/85"
+              >
+                <div className="mb-5 inline-flex rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-3 text-cyan-300 light:border-sky-200 light:bg-sky-50 light:text-sky-700">
+                  <Icon className="text-2xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-white light:text-slate-950">{feature.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-300 light:text-slate-700">{feature.description}</p>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
