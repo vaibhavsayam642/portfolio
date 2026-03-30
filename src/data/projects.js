@@ -86,9 +86,9 @@
       "Reporting tools for operational monitoring",
       "Simple, practical experience for retail management",
     ],
-    githubUrl: "#",
+    githubUrl: "https://github.com/vaibhavsayam642/GrosseerySystem.git",
     liveUrl: "#",
-    images: [],
+    images: ["/grocery 1.png", "/grocery 2.png"],
     accent: "from-emerald-500/20 via-teal-500/10 to-lime-500/20",
   },
 ];
