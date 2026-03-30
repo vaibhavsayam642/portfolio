@@ -73,12 +73,9 @@
     outcome:
       "The project delivers a more organized operating flow for inventory and billing, making routine retail tasks easier to manage.",
     techStack: [
-      "React",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "JavaScript",
-      "Tailwind CSS",
+      "index.html",
+      "style.css",
+      "script.js",
     ],
     features: [
       "Inventory visibility and stock tracking flows",
